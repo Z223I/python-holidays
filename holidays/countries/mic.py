@@ -33,9 +33,7 @@ from holidays.constants import (
 from holidays.constants import MON, WED, FRI, SAT, SUN, WEEKEND
 from holidays.holiday_base import HolidayBase
 
-from united_states import UnitedStates
-
-class MIC(UnitedStates):
+class MIC(HolidayBase):
     # https://www.nyse.com/markets/hours-calendars
 
     STATES = [
@@ -45,11 +43,11 @@ class MIC(UnitedStates):
 
     def __init__(self, **kwargs):
         self.country = "MIC"
-        UnitedStates.__init__(self, **kwargs)
+        HolidayBase.__init__(self, **kwargs)
 
     def _populate(self, year):
         # New Year's Day
-        if year > 1870:
+        if self.state in ["XNYS", "XNAS"] and year > 1870:
             name = "New Year's Day"
             self[date(year, JAN, 1)] = name
             if self.observed and date(year, JAN, 1).weekday() == SUN:
@@ -66,20 +64,8 @@ class MIC(UnitedStates):
             if self.observed and date(year, DEC, 31).weekday() == FRI:
                 self[date(year, DEC, 31)] = name + " (Observed)"
 
-        # Inauguration Day
-        if self.state in ("DC", "LA", "MD", "VA") and year >= 1789:
-            name = "Inauguration Day"
-            if (year - 1789) % 4 == 0 and year >= 1937:
-                self[date(year, JAN, 20)] = name
-                if date(year, JAN, 20).weekday() == SUN:
-                    self[date(year, JAN, 21)] = name + " (Observed)"
-            elif (year - 1789) % 4 == 0:
-                self[date(year, MAR, 4)] = name
-                if date(year, MAR, 4).weekday() == SUN:
-                    self[date(year, MAR, 5)] = name + " (Observed)"
-
         # Martin Luther King Jr. Day
-        if year >= 1986:
+        if self.state in ["XNYS", "XNAS"] and year >= 1986:
             name = "Martin Luther King Jr. Day"
             if self.state == "AL":
                 name = "Robert E. Lee/Martin Luther King Birthday"
@@ -97,26 +83,6 @@ class MIC(UnitedStates):
             elif self.state == "ID" and year >= 2006:
                 name = "Martin Luther King Jr. - Idaho Human Rights Day"
             self[date(year, JAN, 1) + rd(weekday=MO(+3))] = name
-
-        # Lincoln's Birthday
-        name = "Lincoln's Birthday"
-        if (self.state in ("CT", "IL", "IA", "NJ", "NY") and year >= 1971) or (
-            self.state == "CA" and 1971 <= year <= 2009
-        ):
-            self[date(year, FEB, 12)] = name
-            if self.observed and date(year, FEB, 12).weekday() == SAT:
-                self[date(year, FEB, 11)] = name + " (Observed)"
-            elif self.observed and date(year, FEB, 12).weekday() == SUN:
-                self[date(year, FEB, 13)] = name + " (Observed)"
-
-        # Susan B. Anthony Day
-        if (
-            (self.state == "CA" and year >= 2014)
-            or (self.state == "FL" and year >= 2011)
-            or (self.state == "NY" and year >= 2004)
-            or (self.state == "WI" and year >= 1976)
-        ):
-            self[date(year, FEB, 15)] = "Susan B. Anthony Day"
 
         # Washington's Birthday
         name = "Washington's Birthday"
