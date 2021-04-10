@@ -14,7 +14,7 @@
 from datetime import date
 
 from dateutil.easter import easter
-from dateutil.relativedelta import relativedelta as rd, MO, FR, TH, TU
+from dateutil.relativedelta import relativedelta as rd, MO, TU, WE, TH, FR
 
 from holidays.constants import (
     JAN,
@@ -30,7 +30,7 @@ from holidays.constants import (
     NOV,
     DEC,
 )
-from holidays.constants import MON, WED, FRI, SAT, SUN, WEEKEND
+from holidays.constants import MON, TUE, WED, THU, FRI, SAT, SUN, WEEKEND
 from holidays.holiday_base import HolidayBase
 
 # @dr-prodigy to keep with ISO standardization, I suggest we use ISO 10383 (the standard which "specifies a universal 
@@ -111,11 +111,18 @@ class MIC(HolidayBase):
             elif year >= 1888:
                 self[date(year, MAY, 30)] = "Memorial Day"
 
-            """ Partial day on July 3 if July 4 lands on Tues. - Fri.  This is verified true for 2021.
+            # Independence Day Eve
+            # Partial day on July 3 if July 4 lands on Tues. - Sat.  This is verified true for 2021.
             # Per https://www.nyse.com/markets/hours-calendars July 4, 2022 lands on a Monday 
             # and the market has a full session the previous Friday.
-            # Independence Day
-            """
+            if year > 1870:
+                name = "Independence Day Eve (Short Trading Day)"
+                if ((self.observed and date(year, JUL, 3).weekday() == MON) or
+                    (self.observed and date(year, JUL, 3).weekday() == TUE) or
+                    (self.observed and date(year, JUL, 3).weekday() == WED) or
+                    (self.observed and date(year, JUL, 3).weekday() == THU) or
+                    (self.observed and date(year, JUL, 3).weekday() == FRI)):
+                    self[date(year, JUL, 3)] = name
 
             # Independence Day
             if year > 1870:
@@ -134,12 +141,11 @@ class MIC(HolidayBase):
             if year > 1870:
                 self[date(year, NOV, 1) + rd(weekday=TH(+4))] = "Thanksgiving"
 
-            """  Partial day on Friday
+            # Partial day on Friday
             # Day After Thanksgiving
-            name = "Day After Thanksgiving"
+            name = "Day After Thanksgiving (Short Trading Day)"
             dt = date(year, NOV, 1) + rd(weekday=TH(+4))
             self[dt + rd(days=+1)] = name
-            """
 
             # Christmas Day
             if year > 1870:
@@ -150,15 +156,9 @@ class MIC(HolidayBase):
                 elif self.observed and date(year, DEC, 25).weekday() == SUN:
                     self[date(year, DEC, 25) + rd(days=+1)] = name + " (Observed)"
 
-            """ Partial?
+            """ Partial trading day?  Does not look like it.
             # New Year's Eve
-            if (self.state in ("KY", "MI") and year >= 2013) or (
-                self.state == "WI" and year >= 2012
-            ):
-                name = "New Year's Eve"
-                self[date(year, DEC, 31)] = name
-                if self.observed and date(year, DEC, 31).weekday() == SAT:
-                    self[date(year, DEC, 30)] = name + " (Observed)"
+            # For Tues. December 31, 2020, the XNYS and XNAS had full sessions.
             """
 
 """
