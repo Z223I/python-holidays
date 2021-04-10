@@ -111,6 +111,12 @@ class MIC(HolidayBase):
             elif year >= 1888:
                 self[date(year, MAY, 30)] = "Memorial Day"
 
+            """ Partial day on July 3 if July 4 lands on Tues. - Fri.  This is verified true for 2021.
+            # Per https://www.nyse.com/markets/hours-calendars July 4, 2022 lands on a Monday 
+            # and the market has a full session the previous Friday.
+            # Independence Day
+            """
+
             # Independence Day
             if year > 1870:
                 name = "Independence Day"
