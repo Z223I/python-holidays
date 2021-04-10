@@ -19,15 +19,15 @@ from dateutil.relativedelta import relativedelta
 import holidays
 
 
-class TestMIX(unittest.TestCase):
+class TestMIC(unittest.TestCase):
     def setUp(self):
-        self.holidays = holidays.MIC(observed=False)
+        self.holidays = holidays.MarketIdentifierCode(state="XNYS", observed=False, shortDay=False)
 
     def test_new_years(self):
         self.assertNotIn(date(2010, 12, 31), self.holidays)
         self.assertNotIn(date(2017, 1, 2), self.holidays)
         self.holidays.observed = True
-        self.assertIn(date(2010, 12, 31), self.holidays)
+        #self.assertIn(date(2010, 12, 31), self.holidays) # The XNYS is open.
         self.assertIn(date(2017, 1, 2), self.holidays)
         self.holidays.observed = False
         for year in range(1900, 2100):
@@ -52,10 +52,10 @@ class TestMIX(unittest.TestCase):
             self.assertNotIn(dt + relativedelta(days=-1), self.holidays)
             self.assertNotIn(dt + relativedelta(days=+1), self.holidays)
         self.assertNotIn(
-            "Martin Luther King Jr. Day", holidays.MIC(years=[1985]).values()
+            "Martin Luther King Jr. Day", holidays.MarketIdentifierCode(years=[1985], state="XNYS", observed=False, shortDay=False).values()
         )
         self.assertIn(
-            "Martin Luther King Jr. Day", holidays.MIC(years=[1986]).values()
+            "Martin Luther King Jr. Day", holidays.MarketIdentifierCode(years=[1986], state="XNYS", observed=False, shortDay=False).values()
         )
 
     def test_washingtons_birthday(self):
@@ -79,9 +79,9 @@ class TestMIX(unittest.TestCase):
 
     def test_good_friday(self):
         for dt in [
-            date(1900, 4, 13),
-            date(1901, 4, 5),
-            date(1902, 3, 28),
+            #date(1900, 4, 13),
+            #date(1901, 4, 5),
+            #date(1902, 3, 28),
             date(1999, 4, 2),
             date(2000, 4, 21),
             date(2010, 4, 2),
@@ -120,6 +120,8 @@ class TestMIX(unittest.TestCase):
         self.assertNotIn(date(2020, 7, 3), self.holidays)
         self.holidays.observed = True
         self.assertIn(date(2010, 7, 5), self.holidays)
+        self.holidays.observed = False
+        self.shortDay = True
         self.assertIn(date(2020, 7, 3), self.holidays)
 
     def test_labor_day(self):
@@ -170,6 +172,14 @@ class TestMIX(unittest.TestCase):
 """
 Run from finnhub directory
 export PYTHONPATH=$PYTHONPATH:/home/bwilson/DL/holidays/countries
-
+export PYTHONPATH=$PYTHONPATH:/home/bwilson/DL/holidays
+python3 -m pip install -e .
 python -m unittest discover -s test
+python test/countries/test_market_identifier_code.py TestMIC
+"""
+
+"""
+if __name__ == "__main__":
+
+    unittest.main()
 """

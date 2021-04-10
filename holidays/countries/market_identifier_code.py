@@ -59,12 +59,25 @@ class MarketIdentifierCode(HolidayBase):
 
     def __init__(self, **kwargs):
         self.country = "MIC"
+        self.shortDay = kwargs.pop("shortDay")
         HolidayBase.__init__(self, **kwargs)
 
     def _populate(self, year):
 
         if self.state in ["XNYS", "XNAS"]:
             # https://www.nyse.com/markets/hours-calendars
+
+            # 2020
+            # Out of a possible 366 days, 104 days are weekend days (Saturday and Sunday) when the stock exchanges are closed. 
+            # Eight of the nine holidays which close the exchanges fall on weekdays, with Independence Day being observed on 
+            # Friday, July 3. 
+            # 
+            # 
+            # 
+            # 
+            # There are two shortened trading sessions: on Friday, November 27 (the day after Thanksgiving Day), 
+            # and on Thursday, December 24 (Christmas Eve).
+            # https://en.wikipedia.org/wiki/Trading_day#2020
 
             # New Year's Day
             if year > 1870:
@@ -112,18 +125,16 @@ class MarketIdentifierCode(HolidayBase):
                 self[date(year, MAY, 30)] = "Memorial Day"
 
             # Independence Day Eve
-            # Partial day on July 3 if July 4 lands on Tues. - Sat.  This is verified true for 2021.
+            # Partial day on July 3 if July 4 lands on Tues. - Fri.  This is verified true for 2021.
             # TODO: Test case for July 4 on a Saturday.
-            # Also, do two holidays come up for 7/4 on a Saturday?
             # Per https://www.nyse.com/markets/hours-calendars July 4, 2022 lands on a Monday 
             # and the market has a full session the previous Friday.
             if year > 1870:
                 name = "Independence Day Eve (Short Trading Day)"
-                if ((self.observed and date(year, JUL, 3).weekday() == MON) or
-                    (self.observed and date(year, JUL, 3).weekday() == TUE) or
-                    (self.observed and date(year, JUL, 3).weekday() == WED) or
-                    (self.observed and date(year, JUL, 3).weekday() == THU) or
-                    (self.observed and date(year, JUL, 3).weekday() == FRI)):
+                if ((self.shortDay and date(year, JUL, 3).weekday() == MON) or
+                    (self.shortDay and date(year, JUL, 3).weekday() == TUE) or
+                    (self.shortDay and date(year, JUL, 3).weekday() == WED) or
+                    (self.shortDay and date(year, JUL, 3).weekday() == THU)):
                     self[date(year, JUL, 3)] = name
 
             # Independence Day
@@ -131,9 +142,7 @@ class MarketIdentifierCode(HolidayBase):
                 name = "Independence Day"
                 self[date(year, JUL, 4)] = name
                 if self.observed and date(year, JUL, 4).weekday() == SAT:
-                    # Prevent two holidays on Friday July 3.  The other is Independence Day Eve.
-                    #self[date(year, JUL, 4) + rd(days=-1)] = name + " (Observed)"
-                    pass
+                    self[date(year, JUL, 4) + rd(days=-1)] = name + " (Observed)"
                 elif self.observed and date(year, JUL, 4).weekday() == SUN:
                     self[date(year, JUL, 4) + rd(days=+1)] = name + " (Observed)"
 
@@ -148,8 +157,9 @@ class MarketIdentifierCode(HolidayBase):
             # Partial day on Friday
             # Day After Thanksgiving
             name = "Day After Thanksgiving (Short Trading Day)"
-            dt = date(year, NOV, 1) + rd(weekday=TH(+4))
-            self[dt + rd(days=+1)] = name
+            if self.shortDay:
+               dt = date(year, NOV, 1) + rd(weekday=TH(+4))
+               self[dt + rd(days=+1)] = name
 
             # Christmas Day
             if year > 1870:
