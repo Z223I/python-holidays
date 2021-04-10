@@ -33,6 +33,11 @@ from holidays.constants import (
 from holidays.constants import MON, WED, FRI, SAT, SUN, WEEKEND
 from holidays.holiday_base import HolidayBase
 
+# @dr-prodigy to keep with ISO standardization, I suggest we use ISO 10383 (the standard which "specifies a universal 
+# method of identifying exchanges, trading platforms and regulated or non-regulated markets as sources of prices and 
+# related information in order to facilitate automated processing"). These codes are at https://www.iso20022.org/market-identifier-codes.
+
+
 # https://www.nyse.com/markets/hours-calendars
 # 2021, 2022 and 2023 ** Each market will close early at 1:00 p.m. (1:15 p.m. for eligible options) on 
 # Friday, November 26, 2021, Friday, November 25, 2022, and Friday, November 24, 2023 (the day after Thanksgiving). 
@@ -67,6 +72,11 @@ class MIC(HolidayBase):
                 self[date(year, JAN, 1)] = name
                 if self.observed and date(year, JAN, 1).weekday() == SUN:
                     self[date(year, JAN, 1) + rd(days=+1)] = name + " (Observed)"
+
+                
+                # XNYS (US NYSE) Saturday January 1, 2022 the market stays fully open on Friday December 31, 2021.
+                # If this is true for all years for which New Year's Day falls on a Saturday, comment this out.
+                """
                 elif self.observed and date(year, JAN, 1).weekday() == SAT:
                     # Add Dec 31st from the previous year without triggering
                     # the entire year to be added
@@ -78,6 +88,7 @@ class MIC(HolidayBase):
                 # when it falls on a Friday (Jan 1st is a Saturday)
                 if self.observed and date(year, DEC, 31).weekday() == FRI:
                     self[date(year, DEC, 31)] = name + " (Observed)"
+                """
 
             # Martin Luther King Jr. Day
             if year >= 1986:
@@ -113,36 +124,16 @@ class MIC(HolidayBase):
             if year >= 1894:
                 self[date(year, SEP, 1) + rd(weekday=MO)] = "Labor Day"
 
-            """  Partial day on Friday
             # Thanksgiving
             if year > 1870:
                 self[date(year, NOV, 1) + rd(weekday=TH(+4))] = "Thanksgiving"
-            """
 
+            """  Partial day on Friday
             # Day After Thanksgiving
-            if (
-                (
-                    self.state in ("CA", "DE", "FL", "NH", "NC", "OK", "TX", "WV")
-                    and year >= 1975
-                )
-                or (self.state == "IN" and year >= 2010)
-                or (self.state == "MD" and year >= 2008)
-                or self.state in ("NV", "NM")
-            ):
-                if self.state in ("CA", "DE", "NH", "NC", "OK", "WV"):
-                    name = "Day After Thanksgiving"
-                elif self.state in ("FL", "TX"):
-                    name = "Friday After Thanksgiving"
-                elif self.state == "IN":
-                    name = "Lincoln's Birthday"
-                elif self.state == "MD" and year >= 2008:
-                    name = "American Indian Heritage Day"
-                elif self.state == "NV":
-                    name = "Family Day"
-                elif self.state == "NM":
-                    name = "Presidents' Day"
-                dt = date(year, NOV, 1) + rd(weekday=TH(+4))
-                self[dt + rd(days=+1)] = name
+            name = "Day After Thanksgiving"
+            dt = date(year, NOV, 1) + rd(weekday=TH(+4))
+            self[dt + rd(days=+1)] = name
+            """
 
             # Christmas Day
             if year > 1870:
@@ -153,7 +144,7 @@ class MIC(HolidayBase):
                 elif self.observed and date(year, DEC, 25).weekday() == SUN:
                     self[date(year, DEC, 25) + rd(days=+1)] = name + " (Observed)"
 
-            """
+            """ Partial?
             # New Year's Eve
             if (self.state in ("KY", "MI") and year >= 2013) or (
                 self.state == "WI" and year >= 2012
