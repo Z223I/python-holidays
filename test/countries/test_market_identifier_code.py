@@ -89,7 +89,7 @@ class TestMIC(unittest.TestCase):
             date(2019, 4, 19),
             date(2020, 4, 10),
         ]:
-            self.assertNotIn(dt, self.holidays)
+            self.assertIn(dt, self.holidays)
 
     def test_memorial_day(self):
         for dt in [
@@ -122,7 +122,7 @@ class TestMIC(unittest.TestCase):
         self.assertIn(date(2010, 7, 5), self.holidays)
         self.holidays.observed = False
         self.shortDay = True
-        self.assertIn(date(2020, 7, 3), self.holidays)
+        self.assertNotIn(date(2020, 7, 3), self.holidays)
 
     def test_labor_day(self):
         for dt in [
