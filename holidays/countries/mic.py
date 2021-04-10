@@ -45,8 +45,8 @@ from holidays.holiday_base import HolidayBase
 # and NYSE American Equities, NYSE Arca Equities, NYSE Chicago, and NYSE National late trading sessions will close at 5:00 pm.
 # All times are Eastern Time.
 class MIC(HolidayBase):
-    # https://www.nyse.com/markets/hours-calendars
 
+    # Treat markets as if they are states or provinces.
     STATES = [
         "XNYS",  # NYSE started March 8, 1817 per Google on April 9, 2021.
         "XNAS",
@@ -59,6 +59,8 @@ class MIC(HolidayBase):
     def _populate(self, year):
 
         if self.state in ["XNYS", "XNAS"]:
+            # https://www.nyse.com/markets/hours-calendars
+
             # New Year's Day
             if year > 1870:
                 name = "New Year's Day"
