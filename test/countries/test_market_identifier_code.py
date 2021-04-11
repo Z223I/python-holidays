@@ -168,6 +168,7 @@ class TestMIC(unittest.TestCase):
     # and on Thursday, December 24 (Christmas Eve).
     # https://en.wikipedia.org/wiki/Trading_day#2020
     def test_day_after_thanksgiving(self):
+        self.holidays.observed = False
         self.shortDay = True
         for dt in [
             date(1997, 11, 28),
