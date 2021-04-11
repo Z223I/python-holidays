@@ -24,12 +24,90 @@ class TestMIC(unittest.TestCase):
         self.holidays = holidays.MarketIdentifierCode(state="XNYS", observed=False, shortDay=False, shortDaysOnly=False)
 
 
-    def test_presidents_funerals(self):
+    def test_dignitary_funerals(self):
+        self.assertIn(date(2007,  1, 2), self.holidays) # Gerald R. Ford
         self.assertIn(date(2018, 12, 5), self.holidays) # George H. W. Bush
 
+        # Queen Victoria
+
+		# Oct. 23, 1964 -- Closed at 2 p.m. for funeral of former President Hoover.
+        # TODO: Short day
+        holiday = holidays.MarketIdentifierCode(state="XNYS", observed=False, shortDay=False, shortDaysOnly=True)
+        self.assertIn(date(1964, 10, 23), holiday)
+
+		# April 9, 1968 -- National day of mourning for the assassination of Martin Luther King Jr.
+        self.assertIn(date(1968, 4, 9), self.holidays)
+		# June 6, 1968 -- Closed from 11 - 11:02 a.m. in memory of Sen. Robert F. Kennedy.
+		# March 31, 1969 -- Closed for funeral of former President Eisenhower.
+        self.assertIn(date(1969, 3, 31), self.holidays)
+		# Dec. 28, 1972 -- Closed for funeral of former President Truman.
+        self.assertIn(date(1972, 12, 28), self.holidays)
+		# Jan. 25, 1973 -- Closed for funeral of former President Johnson.
+        self.assertIn(date(1973, 1, 25), self.holidays)
+		# April 27, 1994 -- Closed for funeral of former President Nixon.
+        self.assertIn(date(1994, 4, 27), self.holidays)
+        # https://www.orlandosentinel.com/news/os-xpm-2001-09-17-0109170093-story.html
+
+    def test_other_notable_days(self):
+        # NEW YORK -- The closing of the New York Stock Exchange after Tuesday's attack on the 
+        # World Trade Center is the longest since August 1914, when the exchange was closed pending 
+        # the outbreak of World War I.
+        # 9/11 between September 10, 2001 and September 17, 2001
+        self.assertIn(date(2001, 9, 11), self.holidays)
+        self.assertIn(date(2001, 9, 12), self.holidays)
+        self.assertIn(date(2001, 9, 13), self.holidays)
+        self.assertIn(date(2001, 9, 14), self.holidays)
+        self.assertIn(date(2001, 9, 17), self.holidays)
+
+		# Following is a list of closings of the exchange:
+		# Aug. 8, 1885 -- Funeral of former President Grant.
+		# April 29-May 1, 1889 -- Centennial celebration of President Washington's inauguration.
+		# ept. 29-30, 1899 -- Admiral Dewey celebration.
+		# Feb. 2, 1901 -- Funeral of Queen Victoria of England.
+		# Sept. 14, 1901 -- Death of President McKinley.
+		# Sept. 19, 1901 -- Funeral of President McKinley.
+		# Aug. 9, 1902 -- Coronation of King Edward VII of England.
+		# April 22, 1903 -- Opening of new NYSE building.
+		# May 7, 1910 -- Closed 11 a.m. for the death of King Edward VII of England.
+		# May 20, 1910 -- Closed 10 a.m. - noon for funeral of King Edward VII.
+		# April 14, 1913 -- Closed from 10 a.m. to noon for funeral of J.P. Morgan.
+		# July 31-Nov. 28, 1914 -- Closed pending outbreak of World War I. Reopened for trading in bonds with price restrictions
+		# , Nov. 28, 1914; for trading in a limited number of stocks under price restrictions
+		# Dec. 12, 1914; and for trading in all stocks, under price restrictions,
+		# Dec. 15, 1914. All restrictions were removed
+		# April 1, 1915.
+		# Jan. 28, 1918 -- Heatless day.
+		# Feb. 4, 1918 -- Heatless day.
+		# Feb. 11, 1918 -- Heatless day.
+		# Aug. 3, 1923 -- Death of President Harding.
+		# Aug. 10, 1923 -- Funeral of President Harding at Marion, Ohio.
+		# Feb. 6, 1924 -- Closed 12:30 p.m. for funeral of former President Wilson.
+		# June 13, 1927 -- Parade for Charles Lindbergh.
+		# Feb. 20, 1934 -- Opened at 11 a.m. after a severe snowstorm.
+		# Jan. 28, 1936 -- Closed from 10 - 11 a.m. for funeral of King George V of England. April 14, 1945 -- National day of mourning for the death of President Franklin D. Roosevelt.
+		# Aug. 15-16, 1945 -- V-J Day. End of World War II.
+		# May 25, 1946 -- Railroad strike. , Nov. 22, 1963 -- Closed at 2:07 p.m. after the assassination of President Kennedy. Nov. 25, 1963 -- Funeral of President Kennedy.
+		# Oct. 23, 1964 -- Closed at 2 p.m. for funeral of former President Hoover.
+		# April 9, 1968 -- National day of mourning for the assassination of Martin Luther King Jr.
+		# June 6, 1968 -- Closed from 11 - 11:02 a.m. in memory of Sen. Robert F. Kennedy.
+		# March 31, 1969 -- Closed for funeral of former President Eisenhower.
+		# Dec. 28, 1972 -- Closed for funeral of former President Truman.
+		# Jan. 25, 1973 -- Closed for funeral of former President Johnson.
+		# July 14, 1977 -- Closed because of blackout in New York.
+		# Sept. 27, 1985 -- Closed because of Hurricane Gloria.
+		# April 27, 1994 -- Closed for funeral of former President Nixon.
+		# Oct. 27, 1997 -- "Circuit breakers" triggered for first time when the Dow Jones Industrial average dropped 350 points, closing the market at 2:35 p.m. for a half hour. Trading reopened at 3:05 p.m. and the Dow declined an additional 200 points, touching off another mandated trading halt at 3:30 p.m., ending trading for the day.
+        # https://www.orlandosentinel.com/news/os-xpm-2001-09-17-0109170093-story.html
+
+        # But these kind of closings are rare and far between. Besides national days of mourning, 
+        # the stock exchange has shut down for terrorist attacks, the Apollo II moon landing, and of 
+        # course bad weather, such as blizzards and hurricanes, according to Mother Jones. 
+        # Hurricane Sandy closed down the New York Stock Exchange for two whole days in the fall of 2012. 
+
+        self.assertIn(date(2001,  9, 11), self.holidays)
 
 
-
+        self.assertIn(date(2001,  9, 11), self.holidays)
 
 
 
