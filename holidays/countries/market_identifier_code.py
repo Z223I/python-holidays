@@ -161,6 +161,17 @@ class MarketIdentifierCode(HolidayBase):
                dt = date(year, NOV, 1) + rd(weekday=TH(+4))
                self[dt + rd(days=+1)] = name
 
+
+            # TODO:
+            # 2020 There are two shortened trading sessions: on Friday, November 27 (the day after Thanksgiving Day), 
+            # and on Thursday, December 24 (Christmas Eve).
+            # https://en.wikipedia.org/wiki/Trading_day#2020
+
+
+
+
+            
+
             # Christmas Day
             if year > 1870:
                 name = "Christmas Day"

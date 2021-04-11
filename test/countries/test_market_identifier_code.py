@@ -156,6 +156,45 @@ class TestMIC(unittest.TestCase):
             self.assertNotIn(dt + relativedelta(days=-1), self.holidays)
             self.assertNotIn(dt + relativedelta(days=+1), self.holidays)
 
+
+    # TODO:
+    # 2019 Out of a possible 365 days, 104 days are weekend days (Saturday and Sunday) when the stock exchanges 
+    # are closed. All nine holidays which close the exchanges fall on weekdays. There are three shortened trading 
+    # sessions: on Wednesday, July 3 (the day before Independence Day), on Friday, November 29 (the day after 
+    # Thanksgiving Day), and on Tuesday, December 24 (Christmas Eve).
+    # https://en.wikipedia.org/wiki/Trading_day#2019
+
+    # 2020 There are two shortened trading sessions: on Friday, November 27 (the day after Thanksgiving Day), 
+    # and on Thursday, December 24 (Christmas Eve).
+    # https://en.wikipedia.org/wiki/Trading_day#2020
+    def test_day_after_thanksgiving(self):
+        self.shortDay = True
+        for dt in [
+            date(1997, 11, 28),
+            date(1999, 11, 26),
+            date(2000, 11, 24),
+            date(2012, 11, 23),
+            date(2013, 11, 29),
+            date(2014, 11, 28),
+            date(2015, 11, 27),
+            date(2016, 11, 25),
+            date(2020, 11, 27),
+        ]:
+            self.assertIn(dt, self.holidays)
+
+
+
+
+
+
+    def test_christmas_eve(self):
+        self.shortDay = True
+        self.assertIn(date(2019, 12, 24), self.holidays)    # https://en.wikipedia.org/wiki/Trading_day#2019
+        self.assertIn(date(2020, 12, 24), self.holidays)    # https://en.wikipedia.org/wiki/Trading_day#2020
+        self.assertNotIn(date(2021, 12, 24), self.holidays) # https://www.nyse.com/markets/hours-calendars
+        self.assertNotIn(date(2022, 12, 24), self.holidays) # https://www.nyse.com/markets/hours-calendars
+        self.assertNotIn(date(2023, 12, 24), self.holidays) # https://www.nyse.com/markets/hours-calendars
+
     def test_christmas_day(self):
         for year in range(1900, 2100):
             dt = date(year, 12, 25)
