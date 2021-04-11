@@ -63,10 +63,10 @@ class TestMIC(unittest.TestCase):
             self.assertNotIn(dt + relativedelta(days=-1), self.holidays)
             self.assertNotIn(dt + relativedelta(days=+1), self.holidays)
         self.assertNotIn(
-            "Martin Luther King Jr. Day", holidays.MarketIdentifierCode(years=[1985], state="XNYS", observed=False, shortDay=False).values()
+            "Martin Luther King Jr. Day", holidays.MarketIdentifierCode(years=[1985], state="XNYS", observed=False, shortDay=False, shortDaysOnly=False).values()
         )
         self.assertIn(
-            "Martin Luther King Jr. Day", holidays.MarketIdentifierCode(years=[1986], state="XNYS", observed=False, shortDay=False).values()
+            "Martin Luther King Jr. Day", holidays.MarketIdentifierCode(years=[1986], state="XNYS", observed=False, shortDay=False, shortDaysOnly=False).values()
         )
 
     def test_washingtons_birthday(self):
@@ -124,31 +124,17 @@ class TestMIC(unittest.TestCase):
 
     # Independence Day Eve
     # Partial day on July 3 if July 4 lands on Tues. - Fri.  This is verified true for 2021.
-    # TODO: Test case for July 4 on a Saturday.  Should be a full trading day.
     # Per https://www.nyse.com/markets/hours-calendars July 4, 2022 lands on a Monday 
     # and the market has a full session the previous Friday.
 
     def test_independence_eve(self):
-        self.shortDay = True
-
-
+        self.holidays.shortDay = True
         self.assertNotIn(date(2020, 7, 3), self.holidays) # Test case for July 4 on a Saturday.  Should be a full trading day.
-
-
-
-        self.assertNotIn(date(2020, 7, 3), self.holidays)
         self.holidays.observed = True
         self.assertIn(date(2010, 7, 5), self.holidays)
         self.holidays.observed = False
-        self.shortDay = True
+        self.holidays.shortDay = True
         self.assertNotIn(date(2020, 7, 3), self.holidays)
-
-
-
-
-
-
-
 
     def test_independence_day(self):
         for year in range(1900, 2100):
@@ -161,7 +147,7 @@ class TestMIC(unittest.TestCase):
         self.holidays.observed = True
         self.assertIn(date(2010, 7, 5), self.holidays)
         self.holidays.observed = False
-        self.shortDay = True
+        self.holidays.shortDay = True
         self.assertNotIn(date(2020, 7, 3), self.holidays)
 
     def test_labor_day(self):
@@ -207,8 +193,7 @@ class TestMIC(unittest.TestCase):
     # and on Thursday, December 24 (Christmas Eve).
     # https://en.wikipedia.org/wiki/Trading_day#2020
     def test_day_after_thanksgiving(self):
-        self.holidays.observed = False
-        self.shortDay = True
+        self.holidays.shortDay = True
         for dt in [
             date(1997, 11, 28),
             date(1999, 11, 26),
@@ -224,7 +209,7 @@ class TestMIC(unittest.TestCase):
 
 
     def test_christmas_eve(self):
-        self.shortDay = True
+        self.holidays.shortDay = True
         self.assertIn(date(2019, 12, 24), self.holidays)    # https://en.wikipedia.org/wiki/Trading_day#2019
         self.assertIn(date(2020, 12, 24), self.holidays)    # https://en.wikipedia.org/wiki/Trading_day#2020
         self.assertNotIn(date(2021, 12, 24), self.holidays) # https://www.nyse.com/markets/hours-calendars
@@ -244,11 +229,6 @@ class TestMIC(unittest.TestCase):
         self.assertIn(date(2016, 12, 26), self.holidays)
 
 
-
-
-
-    # TODO: Test short days only.
-
     # 2019 Out of a possible 365 days, 104 days are weekend days (Saturday and Sunday) when the stock exchanges 
     # are closed. All nine holidays which close the exchanges fall on weekdays. There are three shortened trading 
     # sessions: on Wednesday, July 3 (the day before Independence Day), on Friday, November 29 (the day after 
@@ -259,13 +239,19 @@ class TestMIC(unittest.TestCase):
     # and on Thursday, December 24 (Christmas Eve).
     # https://en.wikipedia.org/wiki/Trading_day#2020
     def test_short_days_only(self):
-        self.shortDaysOnly = True
-        self.assertIn(date(2020,  7,  3), self.holidays)
+        self.holidays.shortDaysOnly = True  # TODO: How do they get an assignment to work?
+        self.holidays = holidays.MarketIdentifierCode(state="XNYS", observed=False, shortDay=False, shortDaysOnly=True)
+
+        self.assertIn(date(2019,  7,  3), self.holidays)
+        self.assertIn(date(2019, 11, 29), self.holidays)
+        self.assertIn(date(2019, 12, 24), self.holidays)
+
+        self.assertNotIn(date(2020,  7,  3), self.holidays)
         self.assertNotIn(date(2020, 7, 5), self.holidays)
-        self.assertIn(date(2020, 11, 29), self.holidays)
+        self.assertIn(date(2020, 11, 27), self.holidays)
         self.assertIn(date(2020, 12, 24), self.holidays)
 
-        self.assertIn(date(2021, 11, 27), self.holidays)
+        self.assertIn(date(2021, 11, 26), self.holidays)
         self.assertIn(date(2020, 12, 24), self.holidays)
 
         # New Year's Day
@@ -331,7 +317,6 @@ class TestMIC(unittest.TestCase):
         self.assertNotIn(date(2022, 12, 24), self.holidays) # https://www.nyse.com/markets/hours-calendars
         self.assertNotIn(date(2023, 12, 24), self.holidays) # https://www.nyse.com/markets/hours-calendars
 
-
         self.assertNotIn(date(2023, 12, 25), self.holidays)
 
 
@@ -341,6 +326,7 @@ export PYTHONPATH=$PYTHONPATH:/home/bwilson/DL/holidays/countries
 export PYTHONPATH=$PYTHONPATH:/home/bwilson/DL/holidays
 python3 -m pip install -e .
 python -m unittest discover -s test
+python -m unittest test/countries/test_market_identifier_code.py
 python test/countries/test_market_identifier_code.py TestMIC
 """
 
