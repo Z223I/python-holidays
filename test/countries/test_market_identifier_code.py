@@ -24,7 +24,8 @@ class TestMIC(unittest.TestCase):
         self.holidays = holidays.MarketIdentifierCode(state="XNYS", observed=False, shortDay=False, shortDaysOnly=False)
 
 
-# On December 5, 2018, all trading activities (except for stock market futures) were canceled due to the state funeral of George H. W. Bush.
+    def test_presidents_funerals(self):
+        self.assertIn(date(2018, 12, 5), self.holidays) # George H. W. Bush
 
 
 

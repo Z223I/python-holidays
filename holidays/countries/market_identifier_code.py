@@ -72,6 +72,10 @@ class MarketIdentifierCode(HolidayBase):
 
         if self.state in ["XNYS", "XNAS"]:
             if not self.shortDaysOnly:
+                if year == 2018:
+                    self[date(2018, 12, 5)] = 'George H. W. Bush Funeral'
+
+
                 # https://www.nyse.com/markets/hours-calendars
 
                 # 2020
@@ -166,7 +170,6 @@ class MarketIdentifierCode(HolidayBase):
 
             # Independence Day Eve
             # Partial day on July 3 if July 4 lands on Tues. - Fri.  This is verified true for 2021.
-            # TODO: Test case for July 4 on a Saturday.
             # Per https://www.nyse.com/markets/hours-calendars July 4, 2022 lands on a Monday 
             # and the market has a full session the previous Friday.
             if year > 1870:
