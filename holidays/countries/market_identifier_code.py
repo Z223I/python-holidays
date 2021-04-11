@@ -63,6 +63,9 @@ class MarketIdentifierCode(HolidayBase):
         # TODO How to check if key exists before pop.
         self.shortDay = kwargs.pop("shortDay")
         self.shortDaysOnly = kwargs.pop("shortDaysOnly")
+        if self.shortDaysOnly:
+            self.shortDay = True
+
         HolidayBase.__init__(self, **kwargs)
 
     def _populate(self, year):
@@ -174,18 +177,25 @@ class MarketIdentifierCode(HolidayBase):
                     (self.shortDay and date(year, JUL, 3).weekday() == THU)):
                     self[date(year, JUL, 3)] = name
 
-            # Partial day on Friday
-            # Day After Thanksgiving
-            name = "Day After Thanksgiving (Short Trading Day)"
+            # Partial day on Friday after Thanksgiving
+            name = "Friday After Thanksgiving (Short Trading Day)"
             if self.shortDay:
-            dt = date(year, NOV, 1) + rd(weekday=TH(+4))
-            self[dt + rd(days=+1)] = name
+                dt = date(year, NOV, 1) + rd(weekday=TH(+4))
+                self[dt + rd(days=+1)] = name
 
 
-            # TODO:
             # 2020 There are two shortened trading sessions: on Friday, November 27 (the day after Thanksgiving Day), 
             # and on Thursday, December 24 (Christmas Eve).
             # https://en.wikipedia.org/wiki/Trading_day#2020
+
+            # Christmas Eve
+            if year > 1870:
+                name = "Christmas Eve (Short Trading Day)"
+                if ((self.shortDay and date(year, DEC, 24).weekday() == MON) or
+                    (self.shortDay and date(year, DEC, 24).weekday() == TUE) or
+                    (self.shortDay and date(year, DEC, 24).weekday() == WED) or
+                    (self.shortDay and date(year, DEC, 24).weekday() == THU)):
+                    self[date(year, DEC, 24)] = name
 
 
             """ Partial trading day?  Does not look like it.

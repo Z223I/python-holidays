@@ -21,13 +21,24 @@ import holidays
 
 class TestMIC(unittest.TestCase):
     def setUp(self):
-        self.holidays = holidays.MarketIdentifierCode(state="XNYS", observed=False, shortDay=False)
+        self.holidays = holidays.MarketIdentifierCode(state="XNYS", observed=False, shortDay=False, shortDaysOnly=False)
+
+
+# On December 5, 2018, all trading activities (except for stock market futures) were canceled due to the state funeral of George H. W. Bush.
+
+
+
+
+
+
+
+
 
     def test_new_years(self):
         self.assertNotIn(date(2010, 12, 31), self.holidays)
         self.assertNotIn(date(2017, 1, 2), self.holidays)
         self.holidays.observed = True
-        #self.assertIn(date(2010, 12, 31), self.holidays) # The XNYS is open.
+        self.assertNotIn(date(2010, 12, 31), self.holidays) # The XNYS is open.
         self.assertIn(date(2017, 1, 2), self.holidays)
         self.holidays.observed = False
         for year in range(1900, 2100):
@@ -110,6 +121,35 @@ class TestMIC(unittest.TestCase):
             self.assertNotIn(dt + relativedelta(days=-1), self.holidays)
             self.assertNotIn(dt + relativedelta(days=+1), self.holidays)
 
+
+    # Independence Day Eve
+    # Partial day on July 3 if July 4 lands on Tues. - Fri.  This is verified true for 2021.
+    # TODO: Test case for July 4 on a Saturday.  Should be a full trading day.
+    # Per https://www.nyse.com/markets/hours-calendars July 4, 2022 lands on a Monday 
+    # and the market has a full session the previous Friday.
+
+    def test_independence_eve(self):
+        self.shortDay = True
+
+
+        self.assertNotIn(date(2020, 7, 3), self.holidays) # Test case for July 4 on a Saturday.  Should be a full trading day.
+
+
+
+        self.assertNotIn(date(2020, 7, 3), self.holidays)
+        self.holidays.observed = True
+        self.assertIn(date(2010, 7, 5), self.holidays)
+        self.holidays.observed = False
+        self.shortDay = True
+        self.assertNotIn(date(2020, 7, 3), self.holidays)
+
+
+
+
+
+
+
+
     def test_independence_day(self):
         for year in range(1900, 2100):
             dt = date(year, 7, 4)
@@ -157,7 +197,6 @@ class TestMIC(unittest.TestCase):
             self.assertNotIn(dt + relativedelta(days=+1), self.holidays)
 
 
-    # TODO:
     # 2019 Out of a possible 365 days, 104 days are weekend days (Saturday and Sunday) when the stock exchanges 
     # are closed. All nine holidays which close the exchanges fall on weekdays. There are three shortened trading 
     # sessions: on Wednesday, July 3 (the day before Independence Day), on Friday, November 29 (the day after 
@@ -184,10 +223,6 @@ class TestMIC(unittest.TestCase):
             self.assertIn(dt, self.holidays)
 
 
-
-
-
-
     def test_christmas_eve(self):
         self.shortDay = True
         self.assertIn(date(2019, 12, 24), self.holidays)    # https://en.wikipedia.org/wiki/Trading_day#2019
@@ -207,6 +242,97 @@ class TestMIC(unittest.TestCase):
         self.holidays.observed = True
         self.assertIn(date(2010, 12, 24), self.holidays)
         self.assertIn(date(2016, 12, 26), self.holidays)
+
+
+
+
+
+    # TODO: Test short days only.
+
+    # 2019 Out of a possible 365 days, 104 days are weekend days (Saturday and Sunday) when the stock exchanges 
+    # are closed. All nine holidays which close the exchanges fall on weekdays. There are three shortened trading 
+    # sessions: on Wednesday, July 3 (the day before Independence Day), on Friday, November 29 (the day after 
+    # Thanksgiving Day), and on Tuesday, December 24 (Christmas Eve).
+    # https://en.wikipedia.org/wiki/Trading_day#2019
+
+    # 2020 There are two shortened trading sessions: on Friday, November 27 (the day after Thanksgiving Day), 
+    # and on Thursday, December 24 (Christmas Eve).
+    # https://en.wikipedia.org/wiki/Trading_day#2020
+    def test_short_days_only(self):
+        self.shortDaysOnly = True
+        self.assertIn(date(2020,  7,  3), self.holidays)
+        self.assertNotIn(date(2020, 7, 5), self.holidays)
+        self.assertIn(date(2020, 11, 29), self.holidays)
+        self.assertIn(date(2020, 12, 24), self.holidays)
+
+        self.assertIn(date(2021, 11, 27), self.holidays)
+        self.assertIn(date(2020, 12, 24), self.holidays)
+
+        # New Year's Day
+        self.holidays.observed = False
+        for year in range(1990, 2020):
+            dt = date(year, 1, 1)
+            self.assertNotIn(dt, self.holidays)
+
+        # MLK
+        for dt in [
+            date(1986, 1, 20),
+            date(2020, 1, 20),
+        ]:
+            self.assertNotIn(dt, self.holidays)
+
+        # Washington's Birthday'
+        for dt in [
+            date(1969, 2, 22),
+            date(2020, 2, 17),
+        ]:
+            self.assertNotIn(dt, self.holidays)
+
+        # Good Friday
+        for dt in [
+            date(1999, 4, 2),
+            date(2018, 3, 30),
+        ]:
+            self.assertNotIn(dt, self.holidays)
+
+        # Memorial Day
+        for dt in [
+            date(1971, 5, 31),
+            date(2020, 5, 25),
+        ]:
+            self.assertNotIn(dt, self.holidays)
+
+        # Independence Day
+        for year in range(2010, 2014):
+            dt = date(year, 7, 4)
+            self.assertNotIn(dt, self.holidays)
+
+        # Labor day
+        for dt in [
+            date(2014, 9, 1),
+            date(2015, 9, 7),
+            date(2016, 9, 5),
+            date(2020, 9, 7),
+        ]:
+            self.assertNotIn(dt, self.holidays)
+
+        # Thanksgiving Day
+        for dt in [
+            date(1997, 11, 27),
+            date(1999, 11, 25),
+            date(2000, 11, 23),
+        ]:
+            self.assertNotIn(dt, self.holidays)
+
+        # Christmas
+        self.assertIn(date(2019, 12, 24), self.holidays)    # https://en.wikipedia.org/wiki/Trading_day#2019
+        self.assertIn(date(2020, 12, 24), self.holidays)    # https://en.wikipedia.org/wiki/Trading_day#2020
+        self.assertNotIn(date(2021, 12, 24), self.holidays) # https://www.nyse.com/markets/hours-calendars
+        self.assertNotIn(date(2022, 12, 24), self.holidays) # https://www.nyse.com/markets/hours-calendars
+        self.assertNotIn(date(2023, 12, 24), self.holidays) # https://www.nyse.com/markets/hours-calendars
+
+
+        self.assertNotIn(date(2023, 12, 25), self.holidays)
 
 
 """
