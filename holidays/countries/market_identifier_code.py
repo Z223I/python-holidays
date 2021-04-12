@@ -72,8 +72,34 @@ class MarketIdentifierCode(HolidayBase):
 
         if self.state in ["XNYS", "XNAS"]:
             if not self.shortDaysOnly:
+                #
+                # Dignitary funerals
+                #
+
+                """
+                # Oct. 23, 1964 -- Closed at 2 p.m. for funeral of former President Hoover.
+                holiday = holidays.MarketIdentifierCode(state="XNYS", observed=False, shortDay=False, shortDaysOnly=True)
+                self.assertIn(date(1964, 10, 23), holiday)
+
+                # April 9, 1968 -- National day of mourning for the assassination of Martin Luther King Jr.
+                self.assertIn(date(1968, 4, 9), self.holidays)
+                # June 6, 1968 -- Closed from 11 - 11:02 a.m. in memory of Sen. Robert F. Kennedy.
+                # March 31, 1969 -- Closed for funeral of former President Eisenhower.
+                self.assertIn(date(1969, 3, 31), self.holidays)
+                # Dec. 28, 1972 -- Closed for funeral of former President Truman.
+                self.assertIn(date(1972, 12, 28), self.holidays)
+                # Jan. 25, 1973 -- Closed for funeral of former President Johnson.
+                self.assertIn(date(1973, 1, 25), self.holidays)
+                # April 27, 1994 -- Closed for funeral of former President Nixon.
+                self.assertIn(date(1994, 4, 27), self.holidays)
+                # https://www.orlandosentinel.com/news/os-xpm-2001-09-17-0109170093-story.html
+                """
+
+                if year == 2007:
+                    self[date(2007, 1, 2)] = 'Gerald R. Ford'
+
                 if year == 2018:
-                    self[date(2018, 12, 5)] = 'George H. W. Bush Funeral'
+                    self[date(2018, 12, 5)] = 'George H. W. Bush'
 
 
                 # https://www.nyse.com/markets/hours-calendars

@@ -25,13 +25,20 @@ class TestMIC(unittest.TestCase):
 
 
     def test_dignitary_funerals(self):
-        self.assertIn(date(2007,  1, 2), self.holidays) # Gerald R. Ford
-        self.assertIn(date(2018, 12, 5), self.holidays) # George H. W. Bush
+		# Aug. 8, 1885 -- Funeral of former President Grant.
+		# Feb. 2, 1901 -- Funeral of Queen Victoria of England.
+		# Sept. 14, 1901 -- Death of President McKinley.
+		# Sept. 19, 1901 -- Funeral of President McKinley.
+		# May 7, 1910 -- Closed 11 a.m. for the death of King Edward VII of England.
+		# May 20, 1910 -- Closed 10 a.m. - noon for funeral of King Edward VII.
+		# April 14, 1913 -- Closed from 10 a.m. to noon for funeral of J.P. Morgan.
+		# Aug. 3, 1923 -- Death of President Harding.
+		# Aug. 10, 1923 -- Funeral of President Harding at Marion, Ohio.
+		# Feb. 6, 1924 -- Closed 12:30 p.m. for funeral of former President Wilson.
+		# Jan. 28, 1936 -- Closed from 10 - 11 a.m. for funeral of King George V of England. April 14, 1945 -- National day of mourning for the death of President Franklin D. Roosevelt.
 
-        # Queen Victoria
-
+        """
 		# Oct. 23, 1964 -- Closed at 2 p.m. for funeral of former President Hoover.
-        # TODO: Short day
         holiday = holidays.MarketIdentifierCode(state="XNYS", observed=False, shortDay=False, shortDaysOnly=True)
         self.assertIn(date(1964, 10, 23), holiday)
 
@@ -47,6 +54,10 @@ class TestMIC(unittest.TestCase):
 		# April 27, 1994 -- Closed for funeral of former President Nixon.
         self.assertIn(date(1994, 4, 27), self.holidays)
         # https://www.orlandosentinel.com/news/os-xpm-2001-09-17-0109170093-story.html
+        """
+
+        self.assertIn(date(2007,  1, 2), self.holidays) # Gerald R. Ford
+        self.assertIn(date(2018, 12, 5), self.holidays) # George H. W. Bush
 
     def test_other_notable_days(self):
         # NEW YORK -- The closing of the New York Stock Exchange after Tuesday's attack on the 
@@ -60,42 +71,24 @@ class TestMIC(unittest.TestCase):
         self.assertIn(date(2001, 9, 17), self.holidays)
 
 		# Following is a list of closings of the exchange:
-		# Aug. 8, 1885 -- Funeral of former President Grant.
 		# April 29-May 1, 1889 -- Centennial celebration of President Washington's inauguration.
-		# ept. 29-30, 1899 -- Admiral Dewey celebration.
-		# Feb. 2, 1901 -- Funeral of Queen Victoria of England.
-		# Sept. 14, 1901 -- Death of President McKinley.
-		# Sept. 19, 1901 -- Funeral of President McKinley.
+		# Sept. 29-30, 1899 -- Admiral Dewey celebration.
 		# Aug. 9, 1902 -- Coronation of King Edward VII of England.
 		# April 22, 1903 -- Opening of new NYSE building.
-		# May 7, 1910 -- Closed 11 a.m. for the death of King Edward VII of England.
-		# May 20, 1910 -- Closed 10 a.m. - noon for funeral of King Edward VII.
-		# April 14, 1913 -- Closed from 10 a.m. to noon for funeral of J.P. Morgan.
 		# July 31-Nov. 28, 1914 -- Closed pending outbreak of World War I. Reopened for trading in bonds with price restrictions
-		# , Nov. 28, 1914; for trading in a limited number of stocks under price restrictions
+		# Nov. 28, 1914; for trading in a limited number of stocks under price restrictions
 		# Dec. 12, 1914; and for trading in all stocks, under price restrictions,
 		# Dec. 15, 1914. All restrictions were removed
 		# April 1, 1915.
 		# Jan. 28, 1918 -- Heatless day.
 		# Feb. 4, 1918 -- Heatless day.
 		# Feb. 11, 1918 -- Heatless day.
-		# Aug. 3, 1923 -- Death of President Harding.
-		# Aug. 10, 1923 -- Funeral of President Harding at Marion, Ohio.
-		# Feb. 6, 1924 -- Closed 12:30 p.m. for funeral of former President Wilson.
 		# June 13, 1927 -- Parade for Charles Lindbergh.
 		# Feb. 20, 1934 -- Opened at 11 a.m. after a severe snowstorm.
-		# Jan. 28, 1936 -- Closed from 10 - 11 a.m. for funeral of King George V of England. April 14, 1945 -- National day of mourning for the death of President Franklin D. Roosevelt.
 		# Aug. 15-16, 1945 -- V-J Day. End of World War II.
 		# May 25, 1946 -- Railroad strike. , Nov. 22, 1963 -- Closed at 2:07 p.m. after the assassination of President Kennedy. Nov. 25, 1963 -- Funeral of President Kennedy.
-		# Oct. 23, 1964 -- Closed at 2 p.m. for funeral of former President Hoover.
-		# April 9, 1968 -- National day of mourning for the assassination of Martin Luther King Jr.
-		# June 6, 1968 -- Closed from 11 - 11:02 a.m. in memory of Sen. Robert F. Kennedy.
-		# March 31, 1969 -- Closed for funeral of former President Eisenhower.
-		# Dec. 28, 1972 -- Closed for funeral of former President Truman.
-		# Jan. 25, 1973 -- Closed for funeral of former President Johnson.
 		# July 14, 1977 -- Closed because of blackout in New York.
 		# Sept. 27, 1985 -- Closed because of Hurricane Gloria.
-		# April 27, 1994 -- Closed for funeral of former President Nixon.
 		# Oct. 27, 1997 -- "Circuit breakers" triggered for first time when the Dow Jones Industrial average dropped 350 points, closing the market at 2:35 p.m. for a half hour. Trading reopened at 3:05 p.m. and the Dow declined an additional 200 points, touching off another mandated trading halt at 3:30 p.m., ending trading for the day.
         # https://www.orlandosentinel.com/news/os-xpm-2001-09-17-0109170093-story.html
 
@@ -104,14 +97,48 @@ class TestMIC(unittest.TestCase):
         # course bad weather, such as blizzards and hurricanes, according to Mother Jones. 
         # Hurricane Sandy closed down the New York Stock Exchange for two whole days in the fall of 2012. 
 
-        self.assertIn(date(2001,  9, 11), self.holidays)
+        # Apolo 11 - President Nixon decided to give the entire country a day off on July 22, 1969 – closing the NYSE.
+        self.assertIn(date(1969,  7, 22), self.holidays)
 
+        # Hurricane Sandy closed down the New York Stock Exchange for two whole days in the fall of 2012. 
+        # October 29, 2012 and October 30, 2012.
+        self.assertIn(date(2012, 10, 29), self.holidays)
+        self.assertIn(date(2012, 10, 30), self.holidays)
 
-        self.assertIn(date(2001,  9, 11), self.holidays)
-
-
-
-
+        # Paperwork Crisis: 1968
+        # In the late 1960s, the volume of trading activity increased dramatically. With the drastic 
+        # increase in volume, the NYSE had $4 billion in unprocessed transactions by 1968. To catch up, 
+        # the exchange closed every Wednesday from June 12, 1968 to December 31, 1968.
+        # https://www.dividend.com/dividend-education/7-events-that-closed-the-nyse/
+        self.assertIn(date(1968,  6, 12), self.holidays)
+        self.assertIn(date(1968,  6, 19), self.holidays)
+        self.assertIn(date(1968,  6, 26), self.holidays)
+        self.assertIn(date(1968,  7,  3), self.holidays)
+        self.assertIn(date(1968,  7, 10), self.holidays)
+        self.assertIn(date(1968,  7, 17), self.holidays)
+        self.assertIn(date(1968,  7, 24), self.holidays)
+        self.assertIn(date(1968,  7, 31), self.holidays)
+        self.assertIn(date(1968,  8,  7), self.holidays)
+        self.assertIn(date(1968,  8, 14), self.holidays)
+        self.assertIn(date(1968,  8, 21), self.holidays)
+        self.assertIn(date(1968,  8, 28), self.holidays)
+        self.assertIn(date(1968,  9,  4), self.holidays)
+        self.assertIn(date(1968,  9, 11), self.holidays)
+        self.assertIn(date(1968,  9, 18), self.holidays)
+        self.assertIn(date(1968,  9, 25), self.holidays)
+        self.assertIn(date(1968, 10,  2), self.holidays)
+        self.assertIn(date(1968, 10,  9), self.holidays)
+        self.assertIn(date(1968, 10, 16), self.holidays)
+        self.assertIn(date(1968, 10, 23), self.holidays)
+        self.assertIn(date(1968, 10, 30), self.holidays)
+        self.assertIn(date(1968, 11,  6), self.holidays)
+        self.assertIn(date(1968, 11, 13), self.holidays)
+        self.assertIn(date(1968, 11, 20), self.holidays)
+        self.assertIn(date(1968, 11, 27), self.holidays)
+        self.assertIn(date(1968, 12,  4), self.holidays)
+        self.assertIn(date(1968, 12, 11), self.holidays)
+        self.assertIn(date(1968, 12, 18), self.holidays)
+        self.assertIn(date(1968, 12, 25), self.holidays)
 
     def test_new_years(self):
         self.assertNotIn(date(2010, 12, 31), self.holidays)
