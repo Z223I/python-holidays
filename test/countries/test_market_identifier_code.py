@@ -151,7 +151,9 @@ class TestMIC(unittest.TestCase):
             dt = date(year, 1, 1)
             self.assertIn(dt, self.holidays)
             self.assertNotIn(dt + relativedelta(days=-1), self.holidays)
-            self.assertNotIn(dt + relativedelta(days=+1), self.holidays)
+            if not 2007 == year:
+                # Gerald R. Ford funeral 1/2/2007
+                self.assertNotIn(dt + relativedelta(days=+1), self.holidays)
 
     def test_martin_luther(self):
         for dt in [
@@ -246,7 +248,9 @@ class TestMIC(unittest.TestCase):
         for year in range(1900, 2100):
             dt = date(year, 7, 4)
             self.assertIn(dt, self.holidays)
-            self.assertNotIn(dt + relativedelta(days=-1), self.holidays)
+            if not 1968 == year:
+                # The Paperwork Crisis happened in 1968.
+                self.assertNotIn(dt + relativedelta(days=-1), self.holidays)
             self.assertNotIn(dt + relativedelta(days=+1), self.holidays)
         self.assertNotIn(date(2010, 7, 5), self.holidays)
         self.assertNotIn(date(2020, 7, 3), self.holidays)

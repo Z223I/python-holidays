@@ -101,6 +101,41 @@ class MarketIdentifierCode(HolidayBase):
                 if year == 2018:
                     self[date(2018, 12, 5)] = 'George H. W. Bush'
 
+                #
+                # Other notable days
+                #
+
+                # NEW YORK -- The closing of the New York Stock Exchange after Tuesday's attack on the 
+                # World Trade Center is the longest since August 1914, when the exchange was closed pending 
+                # the outbreak of World War I.
+                # 9/11 between September 10, 2001 and September 17, 2001
+                if year == 2001:
+                    self[date(2001, 9, 11)] = '911 attack'
+                    self[date(2001, 9, 12)] = '911 attack'
+                    self[date(2001, 9, 13)] = '911 attack'
+                    self[date(2001, 9, 14)] = '911 attack'
+                    self[date(2001, 9, 17)] = '911 attack'
+
+                # Apolo 11 - President Nixon decided to give the entire country a day off on July 22, 1969 – closing the NYSE.
+                if year == 1969:
+                    self[date(1969, 7, 22)] = 'Apolo 11 landing'
+
+                # Hurricane Sandy closed down the New York Stock Exchange for two whole days in the fall of 2012. 
+                # October 29, 2012 and October 30, 2012.
+                if year == 2012:
+                    self[date(2012, 10, 29)] = 'Hurricane Sandy'
+                    self[date(2012, 10, 30)] = 'Hurricane Sandy'
+
+                # Paperwork Crisis: 1968
+                # In the late 1960s, the volume of trading activity increased dramatically. With the drastic 
+                # increase in volume, the NYSE had $4 billion in unprocessed transactions by 1968. To catch up, 
+                # the exchange closed every Wednesday from June 12, 1968 to December 31, 1968.
+                # https://www.dividend.com/dividend-education/7-events-that-closed-the-nyse/
+                if year == 1968:
+                    for weekNum in range(1, 30):
+                        self[date(year, JUN, 6) + rd(weekday=WE(+weekNum))] = "Paperwork Crisis"
+
+
 
                 # https://www.nyse.com/markets/hours-calendars
 
