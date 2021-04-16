@@ -237,8 +237,9 @@ class TestMIC(unittest.TestCase):
 
     def test_independence_eve(self):
         self.holidays.shortDay = True
-        self.assertNotIn(date(2020, 7, 3), self.holidays) # Test case for July 4 on a Saturday.  Should be a full trading day.
+        self.assertNotIn(date(2020, 7, 3), self.holidays) # Test case for July 4 on a Saturday 2020.  Should be holiday.
         self.holidays.observed = True
+        self.assertIn(date(2020, 7, 3), self.holidays) # Test case for July 4 on a Saturday 2020.  Should be observed holiday.
         self.assertIn(date(2010, 7, 5), self.holidays)
         self.holidays.observed = False
         self.holidays.shortDay = True
@@ -253,12 +254,11 @@ class TestMIC(unittest.TestCase):
                 self.assertNotIn(dt + relativedelta(days=-1), self.holidays)
             self.assertNotIn(dt + relativedelta(days=+1), self.holidays)
         self.assertNotIn(date(2010, 7, 5), self.holidays)
-        self.assertNotIn(date(2020, 7, 3), self.holidays)
         self.holidays.observed = True
         self.assertIn(date(2010, 7, 5), self.holidays)
+        self.assertIn(date(2020, 7, 3), self.holidays)
         self.holidays.observed = False
         self.holidays.shortDay = True
-        self.assertNotIn(date(2020, 7, 3), self.holidays)
 
     def test_labor_day(self):
         for dt in [
@@ -352,7 +352,16 @@ class TestMIC(unittest.TestCase):
         self.holidays.shortDaysOnly = True  # TODO: How do they get an assignment to work?
         self.holidays = holidays.MarketIdentifierCode(state="XNYS", observed=False, shortDay=False, shortDaysOnly=True)
 
+         
+         
+        self.assertNotIn(date(2020, 7, 4), self.holidays)    # https://en.wikipedia.org/wiki/Trading_day#2020
+
+        self.assertNotIn(date(2021, 7, 3), self.holidays)    # https://en.wikipedia.org/wiki/Trading_day#2021
+        self.assertNotIn(date(2021, 7, 4), self.holidays)    # https://en.wikipedia.org/wiki/Trading_day#2021
+        self.assertNotIn(date(2021, 7, 5), self.holidays)    # https://en.wikipedia.org/wiki/Trading_day#2021
+
         self.assertIn(date(2019,  7,  3), self.holidays)
+        self.assertNotIn(date(2019, 7, 4), self.holidays)    # https://en.wikipedia.org/wiki/Trading_day#2019
         self.assertIn(date(2019, 11, 29), self.holidays)
         self.assertIn(date(2019, 12, 24), self.holidays)
 
@@ -403,6 +412,7 @@ class TestMIC(unittest.TestCase):
             dt = date(year, 7, 4)
             self.assertNotIn(dt, self.holidays)
 
+
         # Labor day
         for dt in [
             date(2014, 9, 1),
@@ -432,12 +442,13 @@ class TestMIC(unittest.TestCase):
 
 """
 Run from finnhub directory
-export PYTHONPATH=$PYTHONPATH:/home/bwilson/DL/holidays/countries
-export PYTHONPATH=$PYTHONPATH:/home/bwilson/DL/holidays
+XXXexport PYTHONPATH=$PYTHONPATH:/home/bwilson/DL/holidays/countries
+XXXexport PYTHONPATH=$PYTHONPATH:/home/bwilson/DL/holidays
 python3 -m pip install -e .
 python -m unittest discover -s test
 python -m unittest test/countries/test_market_identifier_code.py
 python test/countries/test_market_identifier_code.py TestMIC
+python test/countries/test_market_identifier_code.py TestMIC.test_independence_day
 """
 
 """
