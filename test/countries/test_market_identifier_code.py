@@ -142,6 +142,9 @@ class TestMIC(unittest.TestCase):
 
     def test_new_years(self):
         self.assertNotIn(date(2010, 12, 31), self.holidays)
+        self.assertNotIn(date(2012, 1, 1), self.holidays)   # Sundays should not be in holidays
+        self.assertIn(date(2012, 1, 2), self.holidays)      # 1/1 observed on Monday.
+
         self.assertNotIn(date(2017, 1, 2), self.holidays)
         self.holidays.observed = True
         self.assertNotIn(date(2010, 12, 31), self.holidays) # The XNYS is open.
@@ -375,7 +378,7 @@ class TestMIC(unittest.TestCase):
 
         # New Year's Day
         self.holidays.observed = False
-        for year in range(1990, 2020):
+        for year in range(1990, 2022):
             dt = date(year, 1, 1)
             self.assertNotIn(dt, self.holidays)
 
@@ -438,7 +441,6 @@ class TestMIC(unittest.TestCase):
         self.assertNotIn(date(2023, 12, 24), self.holidays) # https://www.nyse.com/markets/hours-calendars
 
         self.assertNotIn(date(2023, 12, 25), self.holidays)
-
 
 """
 Run from finnhub directory
