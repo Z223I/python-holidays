@@ -154,7 +154,12 @@ class MarketIdentifierCode(HolidayBase):
                 # New Year's Day
                 if year > 1870:
                     name = "New Year's Day"
-                    self[date(year, JAN, 1)] = name
+                    if ((date(year, JAN, 1).weekday() == MON) or
+                        (date(year, JAN, 1).weekday() == TUE) or
+                        (date(year, JAN, 1).weekday() == WED) or
+                        (date(year, JAN, 1).weekday() == THU) or
+                        (date(year, JAN, 1).weekday() == FRI)):
+                            self[date(year, JAN, 1)] = name
                     if self.observed and date(year, JAN, 1).weekday() == SUN:
                         self[date(year, JAN, 1) + rd(days=+1)] = name + " (Observed)"
 
@@ -185,7 +190,12 @@ class MarketIdentifierCode(HolidayBase):
                 if year > 1970:
                     self[date(year, FEB, 1) + rd(weekday=MO(+3))] = name
                 elif year >= 1879:
-                    self[date(year, FEB, 22)] = name
+                    if ((date(year, FEB, 22).weekday() == MON) or
+                        (date(year, FEB, 22).weekday() == TUE) or
+                        (date(year, FEB, 22).weekday() == WED) or
+                        (date(year, FEB, 22).weekday() == THU) or
+                        (date(year, FEB, 22).weekday() == FRI)):
+                            self[date(year, FEB, 22)] = name
 
                 # Good Friday
                 self[easter(year) + rd(weekday=FR(-1))] = "Good Friday"
@@ -194,13 +204,23 @@ class MarketIdentifierCode(HolidayBase):
                 if year > 1970:
                     self[date(year, MAY, 31) + rd(weekday=MO(-1))] = "Memorial Day"
                 elif year >= 1888:
-                    self[date(year, MAY, 30)] = "Memorial Day"
+                    if ((date(year, MAY, 30).weekday() == MON) or
+                        (date(year, MAY, 30).weekday() == TUE) or
+                        (date(year, MAY, 30).weekday() == WED) or
+                        (date(year, MAY, 30).weekday() == THU) or
+                        (date(year, MAY, 30).weekday() == FRI)):
+                        self[date(year, MAY, 30)] = "Memorial Day"
 
                 # Independence Day
                 if year > 1870:
                     name = "Independence Day"
-                    self[date(year, JUL, 4)] = name
-                    if self.observed and date(year, JUL, 4).weekday() == SAT:
+                    if ((date(year, JUL, 4).weekday() == MON) or
+                        (date(year, JUL, 4).weekday() == TUE) or
+                        (date(year, JUL, 4).weekday() == WED) or
+                        (date(year, JUL, 4).weekday() == THU) or
+                        (date(year, JUL, 4).weekday() == FRI)):
+                        self[date(year, JUL, 4)] = name
+                    elif self.observed and date(year, JUL, 4).weekday() == SAT:
                         self[date(year, JUL, 4) + rd(days=-1)] = name + " (Observed)"
                     elif self.observed and date(year, JUL, 4).weekday() == SUN:
                         self[date(year, JUL, 4) + rd(days=+1)] = name + " (Observed)"
@@ -216,8 +236,13 @@ class MarketIdentifierCode(HolidayBase):
                 # Christmas Day
                 if year > 1870:
                     name = "Christmas Day"
-                    self[date(year, DEC, 25)] = "Christmas Day"
-                    if self.observed and date(year, DEC, 25).weekday() == SAT:
+                    if ((date(year, DEC, 25).weekday() == MON) or
+                        (date(year, DEC, 25).weekday() == TUE) or
+                        (date(year, DEC, 25).weekday() == WED) or
+                        (date(year, DEC, 25).weekday() == THU) or
+                        (date(year, DEC, 25).weekday() == FRI)):
+                        self[date(year, DEC, 25)] = "Christmas Day"
+                    elif self.observed and date(year, DEC, 25).weekday() == SAT:
                         self[date(year, DEC, 25) + rd(days=-1)] = name + " (Observed)"
                     elif self.observed and date(year, DEC, 25).weekday() == SUN:
                         self[date(year, DEC, 25) + rd(days=+1)] = name + " (Observed)"
