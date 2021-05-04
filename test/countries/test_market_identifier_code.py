@@ -446,7 +446,7 @@ class TestMIC(unittest.TestCase):
 Run from finnhub directory
 XXXexport PYTHONPATH=$PYTHONPATH:/home/bwilson/DL/holidays/countries
 XXXexport PYTHONPATH=$PYTHONPATH:/home/bwilson/DL/holidays
-python3 -m pip install -e .
+python3 -m pip3 install -e .
 python -m unittest discover -s test
 python -m unittest test/countries/test_market_identifier_code.py
 python test/countries/test_market_identifier_code.py TestMIC
