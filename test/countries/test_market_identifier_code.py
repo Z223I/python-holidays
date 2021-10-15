@@ -60,8 +60,8 @@ class TestMIC(unittest.TestCase):
         self.assertIn(date(2018, 12, 5), self.holidays) # George H. W. Bush
 
     def test_other_notable_days(self):
-        # NEW YORK -- The closing of the New York Stock Exchange after Tuesday's attack on the 
-        # World Trade Center is the longest since August 1914, when the exchange was closed pending 
+        # NEW YORK -- The closing of the New York Stock Exchange after Tuesday's attack on the
+        # World Trade Center is the longest since August 1914, when the exchange was closed pending
         # the outbreak of World War I.
         # 9/11 between September 10, 2001 and September 17, 2001
         self.assertIn(date(2001, 9, 11), self.holidays)
@@ -92,22 +92,22 @@ class TestMIC(unittest.TestCase):
 		# Oct. 27, 1997 -- "Circuit breakers" triggered for first time when the Dow Jones Industrial average dropped 350 points, closing the market at 2:35 p.m. for a half hour. Trading reopened at 3:05 p.m. and the Dow declined an additional 200 points, touching off another mandated trading halt at 3:30 p.m., ending trading for the day.
         # https://www.orlandosentinel.com/news/os-xpm-2001-09-17-0109170093-story.html
 
-        # But these kind of closings are rare and far between. Besides national days of mourning, 
-        # the stock exchange has shut down for terrorist attacks, the Apollo II moon landing, and of 
-        # course bad weather, such as blizzards and hurricanes, according to Mother Jones. 
-        # Hurricane Sandy closed down the New York Stock Exchange for two whole days in the fall of 2012. 
+        # But these kind of closings are rare and far between. Besides national days of mourning,
+        # the stock exchange has shut down for terrorist attacks, the Apollo II moon landing, and of
+        # course bad weather, such as blizzards and hurricanes, according to Mother Jones.
+        # Hurricane Sandy closed down the New York Stock Exchange for two whole days in the fall of 2012.
 
         # Apolo 11 - President Nixon decided to give the entire country a day off on July 22, 1969 – closing the NYSE.
         self.assertIn(date(1969,  7, 22), self.holidays)
 
-        # Hurricane Sandy closed down the New York Stock Exchange for two whole days in the fall of 2012. 
+        # Hurricane Sandy closed down the New York Stock Exchange for two whole days in the fall of 2012.
         # October 29, 2012 and October 30, 2012.
         self.assertIn(date(2012, 10, 29), self.holidays)
         self.assertIn(date(2012, 10, 30), self.holidays)
 
         # Paperwork Crisis: 1968
-        # In the late 1960s, the volume of trading activity increased dramatically. With the drastic 
-        # increase in volume, the NYSE had $4 billion in unprocessed transactions by 1968. To catch up, 
+        # In the late 1960s, the volume of trading activity increased dramatically. With the drastic
+        # increase in volume, the NYSE had $4 billion in unprocessed transactions by 1968. To catch up,
         # the exchange closed every Wednesday from June 12, 1968 to December 31, 1968.
         # https://www.dividend.com/dividend-education/7-events-that-closed-the-nyse/
         self.assertIn(date(1968,  6, 12), self.holidays)
@@ -154,7 +154,7 @@ class TestMIC(unittest.TestCase):
             dt = date(year, 1, 1)
             self.assertIn(dt, self.holidays)
             self.assertNotIn(dt + relativedelta(days=-1), self.holidays)
-            if not 2007 == year:
+            if year != 2007:
                 # Gerald R. Ford funeral 1/2/2007
                 self.assertNotIn(dt + relativedelta(days=+1), self.holidays)
 
@@ -235,7 +235,7 @@ class TestMIC(unittest.TestCase):
 
     # Independence Day Eve
     # Partial day on July 3 if July 4 lands on Tues. - Fri.  This is verified true for 2021.
-    # Per https://www.nyse.com/markets/hours-calendars July 4, 2022 lands on a Monday 
+    # Per https://www.nyse.com/markets/hours-calendars July 4, 2022 lands on a Monday
     # and the market has a full session the previous Friday.
 
     def test_independence_eve(self):
@@ -252,7 +252,7 @@ class TestMIC(unittest.TestCase):
         for year in range(1900, 2100):
             dt = date(year, 7, 4)
             self.assertIn(dt, self.holidays)
-            if not 1968 == year:
+            if year != 1968:
                 # The Paperwork Crisis happened in 1968.
                 self.assertNotIn(dt + relativedelta(days=-1), self.holidays)
             self.assertNotIn(dt + relativedelta(days=+1), self.holidays)
@@ -296,13 +296,13 @@ class TestMIC(unittest.TestCase):
             self.assertNotIn(dt + relativedelta(days=+1), self.holidays)
 
 
-    # 2019 Out of a possible 365 days, 104 days are weekend days (Saturday and Sunday) when the stock exchanges 
-    # are closed. All nine holidays which close the exchanges fall on weekdays. There are three shortened trading 
-    # sessions: on Wednesday, July 3 (the day before Independence Day), on Friday, November 29 (the day after 
+    # 2019 Out of a possible 365 days, 104 days are weekend days (Saturday and Sunday) when the stock exchanges
+    # are closed. All nine holidays which close the exchanges fall on weekdays. There are three shortened trading
+    # sessions: on Wednesday, July 3 (the day before Independence Day), on Friday, November 29 (the day after
     # Thanksgiving Day), and on Tuesday, December 24 (Christmas Eve).
     # https://en.wikipedia.org/wiki/Trading_day#2019
 
-    # 2020 There are two shortened trading sessions: on Friday, November 27 (the day after Thanksgiving Day), 
+    # 2020 There are two shortened trading sessions: on Friday, November 27 (the day after Thanksgiving Day),
     # and on Thursday, December 24 (Christmas Eve).
     # https://en.wikipedia.org/wiki/Trading_day#2020
     def test_day_after_thanksgiving(self):
@@ -342,21 +342,21 @@ class TestMIC(unittest.TestCase):
         self.assertIn(date(2016, 12, 26), self.holidays)
 
 
-    # 2019 Out of a possible 365 days, 104 days are weekend days (Saturday and Sunday) when the stock exchanges 
-    # are closed. All nine holidays which close the exchanges fall on weekdays. There are three shortened trading 
-    # sessions: on Wednesday, July 3 (the day before Independence Day), on Friday, November 29 (the day after 
+    # 2019 Out of a possible 365 days, 104 days are weekend days (Saturday and Sunday) when the stock exchanges
+    # are closed. All nine holidays which close the exchanges fall on weekdays. There are three shortened trading
+    # sessions: on Wednesday, July 3 (the day before Independence Day), on Friday, November 29 (the day after
     # Thanksgiving Day), and on Tuesday, December 24 (Christmas Eve).
     # https://en.wikipedia.org/wiki/Trading_day#2019
 
-    # 2020 There are two shortened trading sessions: on Friday, November 27 (the day after Thanksgiving Day), 
+    # 2020 There are two shortened trading sessions: on Friday, November 27 (the day after Thanksgiving Day),
     # and on Thursday, December 24 (Christmas Eve).
     # https://en.wikipedia.org/wiki/Trading_day#2020
     def test_short_days_only(self):
         self.holidays.shortDaysOnly = True  # TODO: How do they get an assignment to work?
         self.holidays = holidays.MarketIdentifierCode(state="XNYS", observed=False, shortDay=False, shortDaysOnly=True)
 
-         
-         
+
+
         self.assertNotIn(date(2020, 7, 4), self.holidays)    # https://en.wikipedia.org/wiki/Trading_day#2020
 
         self.assertNotIn(date(2021, 7, 3), self.holidays)    # https://en.wikipedia.org/wiki/Trading_day#2021
