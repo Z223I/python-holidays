@@ -150,13 +150,17 @@ class TestMIC(unittest.TestCase):
         self.assertNotIn(date(2010, 12, 31), self.holidays) # The XNYS is open.
         self.assertIn(date(2017, 1, 2), self.holidays)
         self.holidays.observed = False
-        for year in range(1900, 2100):
+        for year in range(1871, 2100):
             dt = date(year, 1, 1)
             self.assertIn(dt, self.holidays)
             self.assertNotIn(dt + relativedelta(days=-1), self.holidays)
             if year != 2007:
                 # Gerald R. Ford funeral 1/2/2007
                 self.assertNotIn(dt + relativedelta(days=+1), self.holidays)
+        for epoch in range(1609459200):
+            dt = date(epoch)
+            print(f'dt: {dt}')
+            self.assertIn(dt, self.holidays)
 
     def test_martin_luther(self):
         for dt in [
@@ -378,7 +382,7 @@ class TestMIC(unittest.TestCase):
 
         # New Year's Day
         self.holidays.observed = False
-        for year in range(1990, 2022):
+        for year in range(1990, 2025):
             dt = date(year, 1, 1)
             self.assertNotIn(dt, self.holidays)
 
